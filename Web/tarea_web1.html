@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Modelo OSI Completo - Las 7 Capas Interactivas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #d9e4f5 0%, #c2d9f0 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Contenedor principal */
+        .osi-container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Tarjeta maestro */
+        .master-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 8px 18px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+            transition: all 0.2s;
+        }
+
+        /* header moderno */
+        .header-osi {
+            background: #0a2e3f;
+            background: linear-gradient(120deg, #0a2e3f, #155f7c);
+            padding: 1.8rem 2.2rem;
+            color: white;
+        }
+
+        .header-osi h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .header-osi h1 span {
+            background: #ffaa3c;
+            padding: 0.1rem 1rem;
+            border-radius: 60px;
+            font-size: 1.6rem;
+            color: #1e3a47;
+        }
+
+        .header-osi p {
+            margin-top: 0.6rem;
+            font-weight: 400;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        /* selector area */
+        .select-area {
+            background: #f1f6fd;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #d4e2f0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .label-select {
+            background: #dce9f3;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #15506b;
+            font-size: 0.85rem;
+        }
+
+        select {
+            flex: 3;
+            min-width: 260px;
+            background: white;
+            border: 2px solid #c3d8e8;
+            padding: 0.8rem 1.3rem;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0f2c3b;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            outline: none;
+        }
+
+        select:hover {
+            border-color: #2c7da0;
+        }
+
+        select:focus {
+            border-color: #1f6390;
+            box-shadow: 0 0 0 3px rgba(31, 99, 144, 0.2);
+        }
+
+        /* panel de información */
+        .info-panel {
+            padding: 2rem 2rem 2.5rem;
+        }
+
+        .layer-badge {
+            display: inline-flex;
+            background: #1f6390;
+            color: white;
+            font-weight: 700;
+            padding: 0.3rem 1.2rem;
+            border-radius: 80px;
+            font-size: 0.75rem;
+            letter-spacing: 0.8px;
+            margin-bottom: 1rem;
+            gap: 8px;
+        }
+
+        .layer-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #072c3b;
+            border-left: 6px solid #f4a261;
+            padding-left: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .desc-funcion {
+            background: #ecf5fa;
+            padding: 1rem 1.5rem;
+            border-radius: 1.2rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #1e4c66;
+            font-weight: 500;
+        }
+
+        .grid-two {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border-radius: 1.4rem;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2edf7;
+        }
+
+        .info-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #1f5777;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #ffe0b3;
+            padding-bottom: 0.55rem;
+        }
+
+        .protocolos-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.75rem;
+        }
+
+        .protocol-chip {
+            background: #eef2fa;
+            border-radius: 32px;
+            padding: 0.3rem 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1a5d81;
+            border: 1px solid #caddf0;
+        }
+
+        .respuesta-ejemplo {
+            margin-top: 1.8rem;
+            background: #fef7e8;
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.6rem;
+            border-left: 5px solid #f4a261;
+        }
+
+        .respuesta-ejemplo strong {
+            color: #bc5a1c;
+        }
+
+        footer {
+            background: #e5eff8;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #2b5a78;
+            border-top: 1px solid #cde0ef;
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding: 1rem;
+            }
+            .layer-title {
+                font-size: 1.6rem;
+            }
+            .select-area {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="osi-container">
+    <div class="master-card">
+        <div class="header-osi">
+            <h1>
+                <span>OSI</span> Las 7 Capas del Modelo OSI
+            </h1>
+            <p>Selecciona cualquier capa: desde Física hasta Aplicación. Aprende cómo trabaja, sus protocolos clave, respuestas típicas y ejemplos reales.</p>
+        </div>
+        <div class="select-area">
+            <div class="label-select">🔽 Capa OSI</div>
+            <select id="layerSelect">
+                <option value="fisica">⚡ Capa Física (Capa 1)</option>
+                <option value="enlace">🔗 Capa de Enlace de Datos (Capa 2)</option>
+                <option value="red">🌐 Capa de Red (Capa 3)</option>
+                <option value="transporte">🚚 Capa de Transporte (Capa 4)</option>
+                <option value="sesion">🤝 Capa de Sesión (Capa 5)</option>
+                <option value="presentacion">🎨 Capa de Presentación (Capa 6)</option>
+                <option value="aplicacion">📱 Capa de Aplicación (Capa 7)</option>
+            </select>
+        </div>
+        <div class="info-panel" id="dynamicArea">
+            <!-- Contenido dinámico con JavaScript -->
+            <div style="text-align:center; padding: 2rem;">✨ Cargando información de todas las capas...</div>
+        </div>
+        <footer>
+            🧠 Modelo OSI completo: protocolos representativos, mecanismos de respuesta y funcionamiento.
+        </footer>
+    </div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // BASE DE DATOS COMPLETA: 7 capas OSI con todos los detalles
+    // Protocolos, cómo trabajan, respuesta y ejemplos interactivos
+    // --------------------------------------------------------------
+    const osiLayers = {
+        fisica: {
+            nombre: "Capa Física",
+            numero: "Capa 1",
+            mision: "Transmisión de bits a través del medio físico (cables, fibra, ondas). Define voltajes, temporización, tasas de datos, conectores y modulación.",
+            comoTrabaja: "Convierte tramas de datos en señales eléctricas, ópticas o de radiofrecuencia. Trabaja a nivel de bits (0s y 1s) sin estructura de paquetes. Controla la transmisión de bits en el medio físico, sincronización de reloj y duplex. Repite y regenera señales (repetidores, hubs).",
+            protocolos: ["Ethernet (parte física: 10Base-T, 1000Base-X)", "USB", "Bluetooth PHY", "DSL", "Fibra Óptica (SONET/SDH)"],
+            respuestaTipica: "La capa física no tiene respuesta lógica a nivel de aplicación; opera automáticamente. Puede detectar colisiones (CSMA/CD en Ethernet clásico) o indicar señal portadora. Si el medio falla, envía una indicación de 'carrier lost' a la capa superior, pero normalmente no responde con mensajes; los circuitos manejan la sincronización.",
+            ejemploRespuesta: "🔹 **Ethernet 1000BASE-T**: Dos dispositivos negocian la velocidad automática (autonegociación) mediante pulsos de link. Si hay conexión, el enlace físico se 'activa' (link up). Si el cable está dañado, la capa física reporta 'sin portadora' y no hay parpadeo LED.\n🔹 **Fibra óptica**: Un SFP transmite luz modulada; el receptor convierte luz a bits. Si la señal se atenúa, la capa física reporta errores de código."
+        },
+        enlace: {
+            nombre: "Capa de Enlace de Datos",
+            numero: "Capa 2",
+            mision: "Proporcionar transferencia fiable de datos a través de un enlace físico, control de errores, direccionamiento MAC, y acceso al medio.",
+            comoTrabaja: "Agrupa bits en tramas, añade direcciones MAC origen/destino, realiza detección/corrección de errores (CRC). Controla el flujo y acceso al medio (CSMA/CD, Token Ring, switches). Los switches operan aquí. Divide la comunicación en subcapas LLC y MAC.",
+            protocolos: ["Ethernet (IEEE 802.3)", "Wi-Fi (IEEE 802.11)", "PPP", "VLAN (802.1Q)", "MACsec"],
+            respuestaTipica: "Cuando una trama llega correctamente, el destino envía una confirmación (en protocolos como HDLC) o simplemente descarta tramas erróneas. Ethernet no tiene ACK a nivel de enlace (lo deja a capas superiores), pero Wi-Fi sí: ACK frame. Si hay colisión, los dispositivos esperan tiempo aleatorio y reintentan.",
+            ejemploRespuesta: "🔹 **Ethernet con switch**: El switch recibe trama, comprueba CRC; si es válido lo reenvía, si no, lo descarta. No envía respuesta. 🔹 **Wi-Fi 802.11**: La estación envía trama, el punto de acceso responde con un ACK (reconocimiento) a nivel de enlace. Si no recibe ACK, retransmite la trama."
+        },
+        red: {
+            nombre: "Capa de Red",
+            numero: "Capa 3",
+            mision: "Encaminamiento de paquetes a través de redes múltiples, direccionamiento lógico (IP) y fragmentación.",
+            comoTrabaja: "Recibe segmentos de transporte y los encapsula en datagramas IP, añadiendo cabeceras con IP origen/destino. Realiza enrutamiento basado en tablas. Protocolos como IP (IPv4/IPv6) e ICMP. No es fiable (best effort).",
+            protocolos: ["IP (IPv4, IPv6)", "ICMP (Internet Control Message Protocol)", "ARP (auxiliar)", "RIP/OSPF (enrutamiento)"],
+            respuestaTipica: "IP reenvía paquetes sin ACK. ICMP responde a Echo Request (ping) con Echo Reply. Si un router no puede entregar, envía mensaje ICMP de error (destino inalcanzable, tiempo excedido).",
+            ejemploRespuesta: "🔹 **Ping**: Host A envía Echo Request (ICMP) → Host B responde Echo Reply, mostrando RTT. 🔹 **TTL expirado**: Un paquete IP con TTL=1, el router responde con ICMP 'Time Exceeded'."
+        },
+        transporte: {
+            nombre: "Capa de Transporte",
+            numero: "Capa 4",
+            mision: "Transferencia de datos extremo a extremo, control de congestión, segmentación, orientado a conexión (TCP) o no (UDP).",
+            comoTrabaja: "Segmenta datos de sesión. TCP establece conexión mediante 3-way handshake, ofrece fiabilidad, retransmisiones y control de flujo. UDP es simple, sin conexión, baja latencia. Multiplexa puertos.",
+            protocolos: ["TCP (Transmission Control Protocol)", "UDP (User Datagram Protocol)", "SCTP", "DCCP"],
+            respuestaTipica: "TCP: Acuses de recibo (ACK), ventanas deslizantes, RST para reinicio de conexión. UDP: sin respuestas inherentes; la aplicación puede enviar una respuesta de alto nivel.",
+            ejemploRespuesta: "🔹 **Three-way handshake**: SYN → SYN-ACK (respuesta del servidor) → ACK. transferencia con ACK continuos. 🔹 **UDP DNS**: cliente manda consulta DNS; el servidor responde con un datagrama UDP (sin ACK previo)."
+        },
+        sesion: {
+            nombre: "Capa de Sesión",
+            numero: "Capa 5",
+            mision: "Establecer, gestionar y finalizar sesiones entre aplicaciones. Controla diálogos, sincronización y puntos de reanudación.",
+            comoTrabaja: "Ofrece servicios para mantener sesiones, checkpointing y recuperación. Por ejemplo, en comunicaciones RPC o NetBIOS. Coordina qué parte puede transmitir (semiduplex o full dúplex) y maneja reintentos de sesión si se cae la conexión. Permite establecer diálogos con tokens.",
+            protocolos: ["NetBIOS", "RPC (Remote Procedure Call)", "PPTP (a nivel de sesión)", "SOCKS", "SMB (algunas funciones)"],
+            respuestaTipica: "Responde con códigos de control de sesión: establecimiento (Connect Confirm), pausas, reanudación de sesiones. Si hay fallo, permite retomar desde un punto de sincronización sin reiniciar toda la transferencia.",
+            ejemploRespuesta: "🔹 **NetBIOS**: Un cliente solicita apertura de sesión, el servidor responde con 'sesión establecida' y número de identificación. 🔹 **RPC**: Llamada a procedimiento remoto → el servidor responde con el resultado de la función, manteniendo el contexto de la sesión."
+        },
+        presentacion: {
+            nombre: "Capa de Presentación",
+            numero: "Capa 6",
+            mision: "Traducción de datos, compresión, cifrado y transformación de formatos para que la capa de aplicación entienda la información.",
+            comoTrabaja: "Actúa como traductor: convierte caracteres (ASCII a EBCDIC), comprime imágenes, cifra información (TLS/SSL parcialmente en esta capa o sesión). Define la sintaxis abstracta y la sintaxis de transferencia (ASN.1, XDR).",
+            protocolos: ["SSL/TLS (parte de presentación)", "JPEG/MPEG (compresión)", "XDR (eXternal Data Representation)", "ASN.1", "MIME"],
+            respuestaTipica: "Si hay cifrado, transforma datos cifrados a texto plano y viceversa. Responde con confirmación de conversión exitosa o errores de formato (ej: certificado inválido).",
+            ejemploRespuesta: "🔹 **TLS handshake**: Cliente envía 'ClientHello' → servidor responde con 'ServerHello', certificados y parámetros cifrados. Luego la capa de presentación descifra los datos. 🔹 **Compresión**: Un servidor envía imagen JPEG; el cliente reconstruye los píxeles."
+        },
+        aplicacion: {
+            nombre: "Capa de Aplicación",
+            numero: "Capa 7",
+            mision: "Interfaz directa con el usuario y procesos de aplicación. Define protocolos de alto nivel como HTTP, FTP, SMTP, DNS.",
+            comoTrabaja: "Utiliza capas inferiores para transportar datos. HTTP solicita recursos web, FTP maneja archivos, SMTP correo. Trabaja con mensajes de aplicación (requests/responses). No realiza enrutamiento ni control de errores.",
+            protocolos: ["HTTP/HTTPS", "FTP", "DNS", "SSH", "SMTP", "POP3", "DHCP"],
+            respuestaTipica: "HTTP: Códigos de estado (200 OK, 404, 500). FTP: Códigos (226, 530). DNS: responde con registros A, AAAA, etc.",
+            ejemploRespuesta: "🔹 **HTTP GET**: cliente pide '/index.html' → servidor responde 200 OK + contenido HTML. 🔹 **FTP**: comando RETR archivo.txt → servidor responde '150 Abriendo conexión', luego '226 Transferencia completa'."
+        }
+    };
+
+    const selectEl = document.getElementById('layerSelect');
+    const dynamicArea = document.getElementById('dynamicArea');
+
+    function renderLayer(layerId) {
+        const layer = osiLayers[layerId];
+        if (!layer) return;
+
+        // Crear lista de protocolos con chips
+        const protocolosHtml = layer.protocolos.map(p => `<span class="protocol-chip">${p}</span>`).join('');
+
+        const fullHtml = `
+            <div>
+                <div class="layer-badge">
+                    <span>${layer.numero}</span> <span>🎯 ${layer.nombre}</span>
+                </div>
+                <div class="layer-title">${layer.nombre}</div>
+                <div class="desc-funcion">
+                    📌 <strong>Propósito principal:</strong> ${layer.mision}
+                </div>
+                <div class="grid-two">
+                    <div class="info-card">
+                        <h3>⚙️ ¿Cómo trabaja?</h3>
+                        <p>${layer.comoTrabaja}</p>
+                        <div style="margin-top: 12px;">
+                            <strong>📡 Protocolos representativos</strong>
+                            <div class="protocolos-wrap">
+                                ${protocolosHtml}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h3>🔄 Mecanismo de respuesta</h3>
+                        <p>${layer.respuestaTipica}</p>
+                    </div>
+                </div>
+                <div class="respuesta-ejemplo">
+                    <strong>📨 Ejemplo concreto de interacción / respuesta en red</strong><br>
+                    ${layer.ejemploRespuesta.replace(/\n/g, '<br>')}
+                    <div style="margin-top: 14px; background: #fff1df; padding: 10px 14px; border-radius: 18px; font-size:0.85rem;">
+                        💡 <strong>Detalle clave:</strong> Esta capa interactúa con las adyacentes para asegurar la comunicación integral.
+                    </div>
+                </div>
+            </div>
+        `;
+        dynamicArea.innerHTML = fullHtml;
+    }
+
+    // Al cargar y cambio de selector
+    selectEl.addEventListener('change', (e) => {
+        renderLayer(e.target.value);
+    });
+
+    // Render inicial con la capa Física (para mostrar todas desde el principio)
+    renderLayer('fisica');
+</script>
+</body>
+</html>
